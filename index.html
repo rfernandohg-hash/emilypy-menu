@@ -754,7 +754,7 @@ header {
           codigo: "DS-001",
           nombre: "Desayuno feliz aniversario",
           precio: 28.00,
-          descripcion: "Un detalle lleno de cariño para sorprender en su dia. Incluye bocaditos, barra de chocolate, bebida, mini torta, decoracion con globos, panel tematico,5 fotografias y tarjeta",
+          descripcion: "Un detalle lleno de cariño para sorprender en su dia. Incluye bocaditos, barra de chocolate, bebida, mini torta, decoracion con globos, panel tematico,4 fotografias, tarjeta y espacio para fotos o dedicatoria.",
           imagenes: [
             "fotos/caja de desayuno feliz aniversario.png",
            
@@ -1668,6 +1668,38 @@ header {
       return producto;
     }
 
+    const carpetasFotosPorCategoria = {
+      "Desayuno sorpresa": "desayunos",
+      "Cajas sorpresa": "cajas",
+      "Bouquet de flores naturales": "bouquets-naturales",
+      "Bouquet de flores eternas": "bouquets-eternos",
+      "Decoración de eventos": "decoraciones",
+      "Alquiler de mobiliarios": "mobiliarios",
+      "Otros detalles": "otros-detalles"
+    };
+
+    function obtenerRutaImagen(ruta, categoria = categoriaActual) {
+      if (!ruta || ruta.startsWith("http") || ruta.startsWith("data:")) {
+        return ruta;
+      }
+
+      if (!ruta.startsWith("fotos/")) {
+        return ruta;
+      }
+
+      const carpeta = carpetasFotosPorCategoria[categoria];
+      if (!carpeta) {
+        return ruta;
+      }
+
+      const rutaEsperada = `fotos/${carpeta}/`;
+      if (ruta.startsWith(rutaEsperada)) {
+        return ruta;
+      }
+
+      return ruta.replace("fotos/", rutaEsperada);
+    }
+
     function generarCodigoProducto(categoria, index) {
       const prefijos = {
         "Desayuno sorpresa": "DS",
@@ -1675,7 +1707,8 @@ header {
         "Bouquet de flores naturales": "BN",
         "Bouquet de flores eternas": "BE",
         "Decoración de eventos": "DE",
-        "Alquiler de mobiliarios": "AM"
+        "Alquiler de mobiliarios": "AM",
+        "Otros detalles": "OD"
       };
 
       const prefijo = prefijos[categoria] || "PR";
@@ -1732,7 +1765,7 @@ header {
           producto.imagenActual = 0;
         }
 
-        const imagenPrincipal = producto.imagenes[producto.imagenActual];
+        const imagenPrincipal = obtenerRutaImagen(producto.imagenes[producto.imagenActual], categoriaActual);
         const codigoProducto = obtenerCodigoProducto(producto, categoriaActual, index);
 
         const card = document.createElement("div");
@@ -1798,7 +1831,7 @@ header {
 
     function abrirGaleriaPorProducto(productIndex) {
       const producto = normalizarProducto(data[categoriaActual][productIndex]);
-      galleryImages = producto.imagenes;
+      galleryImages = producto.imagenes.map((imagen) => obtenerRutaImagen(imagen, categoriaActual));
       galleryIndex = producto.imagenActual || 0;
       actualizarGaleria();
       galleryModal.classList.add("show");
