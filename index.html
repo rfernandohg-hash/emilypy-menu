@@ -1495,7 +1495,7 @@ header {
           imagenes: [
             "fotos/decoracion mi grado2_1.png",
             "fotos/decoracion mi grado2_2.png",
-            "fotos/decoracion mi grado2_3.png"
+            "fotos/decoracion mi grado2_3.png",
             
           ]    
         },
@@ -1515,7 +1515,7 @@ header {
       
         {
           codigo: "DE-008",
-          nombre: "Decoracion cumpleaños",
+          nombre: "Decoracion Feliz cumpleaños especial",
           precio: 75.00,
           descripcion: "Decoracion personalizada para grados y momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
           imagenes: [
@@ -1528,9 +1528,9 @@ header {
         },
          {
           codigo: "DE-009",
-          nombre: "Arco de inauguracion",
-          precio: 45.00,
-          descripcion: "Decoracion personalizada para grados y momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
+          nombre: "Arco Inaugural con Globos",
+          precio: 50.00,
+          descripcion: "Decoracion personalizada y momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
           imagenes: [
             "fotos/decoracion arco1.1.jpeg",
             "fotos/decoracion arco1.2.jpeg",
@@ -1540,9 +1540,9 @@ header {
         },
         {
           codigo: "DE-010",
-          nombre: "Arco de inauguracion",
+          nombre: "Decoración Birthaday Deluxe",
           precio: 85.00,
-          descripcion: "Decoracion personalizada para grados y momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
+          descripcion: "Decoracion personalizada en locales y momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
           imagenes: [
             "fotos/decoracion stefany1.1.jpeg",
             "fotos/decoracion stefany1.2.jpeg",
@@ -1554,7 +1554,7 @@ header {
           codigo: "DE-011",
           nombre: "Mini-decoracion princesa sofia",
           precio: 35.00,
-          descripcion: "Decoracion personalizada para grados y momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
+          descripcion: "Decoracion personalizada para momentos especiales. Se adapta a la tematica, colores, lugar y disponibilidad.",
           imagenes: [
             "fotos/decoracion mini princesa sofia1.1.jpeg",
             "fotos/decoracion mini princesa sofia1.2.jpeg",
@@ -1567,7 +1567,7 @@ header {
         {
           codigo: "AM-001",
           nombre: "Alquiler de Mobiliario Basico",
-          precio: 15.00,
+          precio: 25.00,
           descripcion: "Mobiliario de apoyo para complementar decoraciones, mesas dulces o montajes pequeños. Consulta disponibilidad, cantidad y condiciones de entrega.",
           imagenes: [
             "fotos/caja de desayuno feliz aniversario.jpeg"
@@ -1588,8 +1588,8 @@ header {
         {
           codigo: "OD-001",
           nombre: "Cuadro de Selfies",
-          precio: 15.00,
-          descripcion: "Mobiliario de apoyo para complementar decoraciones, mesas dulces o montajes pequeños. Consulta disponibilidad, cantidad y condiciones de entrega.",
+          precio: 25.00,
+          descripcion: "Cuadro de selfies personalizado. Consulta disponibilidad, cantidad y condiciones de entrega.",
           imagenes: [
             "fotos/ueibgabrie lopezgrauduacion 1.1.jpeg",
             "fotos/ueibgabrie lopezgrauduacion 1.2.jpeg"
@@ -1599,7 +1599,7 @@ header {
           codigo: "OD-002",
           nombre: "Reloj accesorio Alicia en el pais de la maravillas",
           precio: 8.00,
-          descripcion: "Opcion para eventos que necesitan una presentacion mas completa. Consulta medidas, disponibilidad, tiempo de uso y condiciones por WhatsApp.",
+          descripcion: "Accesorio Reloj Alicia en el Pais de las maravillas. pedidos, Consulta medidas, disponibilidad, condiciones por WhatsApp.",
           imagenes: [
             
             "fotos/reloj alicia1.2.jpeg",
@@ -1610,7 +1610,7 @@ header {
            {
           codigo: "OD-003",
           nombre: "rosas eternas",
-          precio: 1.00,
+          precio: 1.50,
           descripcion: "Opcion para eventos que necesitan una presentacion mas completa. Consulta medidas, disponibilidad, tiempo de uso y condiciones por WhatsApp.",
           imagenes: [
             
@@ -1656,15 +1656,226 @@ header {
       centroLng: -78.0026
     };
 
-    function normalizarProducto(producto) {
+    function esNombreGenerico(nombre) {
+      const texto = (nombre || "").toLowerCase();
+      return [
+        "caja regalo personalizada",
+        "caja sorpresa tematica",
+        "caja desayuno san valentin",
+        "caja desayuno feliz cumpleaños",
+        "desayuno feliz cumpleaños",
+        "desayuno feliz dia maestra",
+        "desayuno detalle especial",
+        "desayuno con globo burbuja",
+        "feliz dia del hombre",
+        "feliz dia mama",
+        "mini cajitas cilidricas regalo personalizada",
+        "decoracion cumpleaños",
+        "decoracion de grado",
+        "decoracion mi grado 3",
+        "bouquet eterno deluxe",
+        "alquiler de mobiliario basico",
+        "alquiler de mobiliario para eventos"
+      ].some((generico) => texto === generico);
+    }
+
+    function capitalizarTexto(texto) {
+      const palabrasMinusculas = ["de", "del", "la", "las", "el", "los", "con", "para", "y", "en"];
+      return texto
+        .split(" ")
+        .filter(Boolean)
+        .map((palabra, index) => {
+          const limpia = palabra.toLowerCase();
+          if (index > 0 && palabrasMinusculas.includes(limpia)) {
+            return limpia;
+          }
+          return limpia.charAt(0).toUpperCase() + limpia.slice(1);
+        })
+        .join(" ");
+    }
+
+    function limpiarTemaProducto(texto) {
+      return texto
+        .replace(/\bcaja\b/g, " ")
+        .replace(/\bdesayuno\b/g, " ")
+        .replace(/\bsorpresa\b/g, " ")
+        .replace(/\bdecoración\b/g, " ")
+        .replace(/\bbouquet\b/g, " ")
+        .replace(/\bflores\b/g, " ")
+        .replace(/\beternas\b/g, " ")
+        .replace(/\bnaturales\b/g, " ")
+        .replace(/\bfeliz\b/g, " ")
+        .replace(/\bdia\b/g, "día")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function nombreComercialDesdeTema(categoria, tema) {
+      const temaLimpio = capitalizarTexto(tema);
+
+      if (categoria === "Desayuno sorpresa") {
+        if (!tema) return "Desayuno Sorpresa Signature";
+        if (tema.includes("frutas")) return "Desayuno Fresh Garden";
+        if (tema.includes("vino")) return "Desayuno Brunch Premium";
+        if (tema.includes("dorado")) return "Desayuno Golden Deluxe";
+        if (tema.includes("basket") || tema.includes("nba")) return "Desayuno Fan Edition NBA";
+        if (tema.includes("emelec")) return "Desayuno Fan Edition Emelec";
+        if (tema.includes("barcelona")) return "Desayuno Fan Edition Barcelona";
+        if (tema.includes("maestra") || tema.includes("profe")) return "Desayuno Gratitud Especial";
+        if (tema.includes("mama") || tema.includes("madre")) return "Desayuno Amor para Mamá";
+        if (tema.includes("aniversario")) return "Desayuno Romance Aniversario";
+        if (tema.includes("san valentin") || tema.includes("amor")) return "Desayuno Love Deluxe";
+        if (tema.includes("girasol")) return "Desayuno Sunshine Premium";
+        if (tema.includes("stitch")) return "Desayuno Kids Stitch";
+        if (tema.includes("spiderman")) return "Desayuno Kids Spiderman";
+        if (tema.includes("madrina")) return "Desayuno Dulce Madrina";
+        if (tema.includes("chikis")) return "Desayuno Sweet Celebration";
+        if (tema.includes("cumpleaños")) return "Desayuno Birthday Premium";
+        return `Desayuno Signature ${temaLimpio}`;
+      }
+
+      if (categoria === "Cajas sorpresa") {
+        if (!tema) return "Caja Sorpresa Signature";
+        if (tema.includes("corazón") || tema.includes("corazon")) return "Love Box Deluxe";
+        if (tema.includes("cilindro") || tema.includes("cilíndricas")) return "Caja Cilíndrica Premium";
+        if (tema.includes("mini")) return "Mini Box Especial";
+        if (tema.includes("hexagonal")) return "Photo Box Hexagonal";
+        if (tema.includes("vino") && tema.includes("azul")) return "Blue Wine Box Deluxe";
+        if (tema.includes("vino")) return "Wine Box Premium";
+        if (tema.includes("maquillaje")) return "Glam Box Premium";
+        if (tema.includes("barcelona")) return "Fan Box Barcelona";
+        if (tema.includes("navideñas")) return "Holiday Box Navideña";
+        if (tema.includes("madre") || tema.includes("mama")) return "Mom Love Box";
+        if (tema.includes("hombre")) return "Gentleman Box";
+        if (tema.includes("grado") || tema.includes("defensa")) return "Graduation Box Premium";
+        if (tema.includes("snacks") || tema.includes("snaks")) return "Snack Box Deluxe";
+        if (tema.includes("rick")) return "Fun Box Rick";
+        if (tema.includes("cumpleaños")) return "Birthday Box Deluxe";
+        return `Caja Signature ${temaLimpio}`;
+      }
+
+      if (categoria === "Bouquet de flores naturales") {
+        if (tema.includes("premium")) return "Bouquet Natural Premium";
+        if (tema.includes("romantico") || tema.includes("romántico")) return "Bouquet Natural Romántico";
+        return tema ? `Bouquet Natural Especial ${temaLimpio}` : "Bouquet Natural Premium";
+      }
+
+      if (categoria === "Bouquet de flores eternas") {
+        if (tema.includes("graduada") || tema.includes("graduación")) return "Bouquet Eterno Graduación Premium";
+        if (tema.includes("azules")) return "Bouquet Eterno Azul Deluxe";
+        if (tema.includes("cumpleaños")) return "Bouquet Eterno Cumpleaños Especial";
+        return tema ? `Bouquet Eterno Deluxe ${temaLimpio}` : "Bouquet Eterno Personalizado";
+      }
+
+      if (categoria === "Decoración de eventos") {
+        if (tema.includes("bautizo")) return "Decoración Bautizo Elegante";
+        if (tema.includes("grado") || tema.includes("graduación")) return "Decoración Graduación Premium";
+        if (tema.includes("sirenita")) return "Mini Decoración La Sirenita";
+        if (tema.includes("princesa sofia")) return "Mini Decoración Princesa Sofía";
+        if (tema.includes("mini")) return `Mini Decoración Temática ${temaLimpio.replace(/^Mini\s*/i, "")}`.trim();
+        if (tema.includes("cumpleaños")) return "Decoración Cumpleaños Deluxe";
+        if (tema.includes("arco")) return "Arco Decorativo Especial";
+        return tema ? `Decoración Especial ${temaLimpio}` : "Decoración Personalizada Premium";
+      }
+
+      if (categoria === "Otros detalles") {
+        if (tema.includes("reloj")) return "Reloj Temático Alicia Deluxe";
+        if (tema.includes("rosa")) return "Rosa Eterna Individual";
+        if (tema.includes("graduación")) return "Cuadro de Selfies Graduación Premium";
+        return tema ? `Detalle Especial ${capitalizarTexto(tema)}` : "Detalle Personalizado";
+      }
+
+      return temaLimpio || "Producto Personalizado";
+    }
+
+    function obtenerNombreDesdeImagen(producto, categoria) {
+      const primeraImagen = (producto.imagenes && producto.imagenes[0]) || producto.imagen || "";
+      const archivo = primeraImagen.split("/").pop() || "";
+      let nombre = archivo.replace(/\.[^.]+$/, "");
+
+      nombre = nombre
+        .replace(/[_-]/g, " ")
+        .replace(/\b\d+([._]\d+)?\b/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
+
+      const reemplazos = {
+        "sopresa": "sorpresa",
+        "exagonal": "hexagonal",
+        "defenza": "defensa",
+        "cupleaños": "cumpleaños",
+        "cumpleños": "cumpleaños",
+        "eterenas": "eternas",
+        "buquet": "bouquet",
+        "decoracion": "decoración",
+        "cilidricas": "cilíndricas",
+        "corazo": "corazón",
+        "snaks": "snacks",
+        "rejoj": "reloj",
+        "grauduacion": "graduación"
+      };
+
+      Object.keys(reemplazos).forEach((error) => {
+        nombre = nombre.replaceAll(error, reemplazos[error]);
+      });
+
+      const tema = limpiarTemaProducto(nombre);
+      return nombreComercialDesdeTema(categoria, tema || nombre || producto.nombre || "Producto personalizado");
+    }
+
+    function descripcionPorCategoria(producto, categoria) {
+      const nombre = producto.nombre || "este detalle";
+      const textos = {
+        "Desayuno sorpresa": `${nombre} preparado para sorprender desde la mañana. Incluye una presentación decorada, productos dulces y salados, bebida y detalle personalizado según la ocasión.`,
+        "Cajas sorpresa": `${nombre} con presentación decorada y personalizada. Ideal para cumpleaños, aniversarios, fechas especiales o detalles de cariño; se puede ajustar por colores, temática y presupuesto.`,
+        "Bouquet de flores naturales": `${nombre} elaborado con flores naturales frescas. El diseño puede variar según disponibilidad, colores solicitados y ocasión especial.`,
+        "Bouquet de flores eternas": `${nombre} elaborado con flores eternas y envoltura decorativa. Un detalle duradero, personalizable por colores, mensaje y estilo.`,
+        "Decoración de eventos": `${nombre} para celebraciones y momentos especiales. El montaje se adapta al espacio, temática, colores y detalles solicitados.`,
+        "Alquiler de mobiliarios": `${nombre} para complementar decoraciones, mesas dulces o montajes de eventos. Consulta disponibilidad, cantidad, tiempo de uso y condiciones de entrega.`,
+        "Otros detalles": `${nombre} personalizado para complementar regalos, eventos o celebraciones. Consulta colores, disponibilidad y detalles por WhatsApp.`
+      };
+
+      return textos[categoria] || `${nombre} personalizado con detalles a elección. El precio puede variar según diseño, tamaño y adicionales.`;
+    }
+
+    function esDescripcionGenerica(descripcion) {
+      const texto = (descripcion || "").toLowerCase();
+      return !texto ||
+        texto.includes("un regalo compacto, bonito y facil de entregar") ||
+        texto.includes("opcion para eventos que necesitan una presentacion") ||
+        texto.includes("decoracion personalizada para grados y momentos especiales") ||
+        texto.includes("decoracion personalizada para cunpleaños") ||
+        texto.includes("presentacion elegante con flores eternas");
+    }
+
+    function normalizarProducto(producto, categoria = categoriaActual, index = 0) {
       if (producto.imagenes && producto.imagenes.length > 0) {
+        if (!producto.nombre || esNombreGenerico(producto.nombre)) {
+          producto.nombre = obtenerNombreDesdeImagen(producto, categoria);
+        }
+        if (esDescripcionGenerica(producto.descripcion)) {
+          producto.descripcion = descripcionPorCategoria(producto, categoria);
+        }
         return producto;
       }
       if (producto.imagen) {
         producto.imagenes = [producto.imagen];
+        if (!producto.nombre || esNombreGenerico(producto.nombre)) {
+          producto.nombre = obtenerNombreDesdeImagen(producto, categoria);
+        }
+        if (esDescripcionGenerica(producto.descripcion)) {
+          producto.descripcion = descripcionPorCategoria(producto, categoria);
+        }
         return producto;
       }
       producto.imagenes = ["https://via.placeholder.com/500x350?text=Sin+imagen"];
+      if (!producto.nombre) {
+        producto.nombre = `Producto ${String(index + 1).padStart(2, "0")}`;
+      }
+      if (esDescripcionGenerica(producto.descripcion)) {
+        producto.descripcion = descripcionPorCategoria(producto, categoria);
+      }
       return producto;
     }
 
@@ -1736,7 +1947,7 @@ header {
     }
 
     function cambiarImagenProducto(productIndex, direccion) {
-      const producto = normalizarProducto(data[categoriaActual][productIndex]);
+      const producto = normalizarProducto(data[categoriaActual][productIndex], categoriaActual, productIndex);
       if (!producto.imagenActual) {
         producto.imagenActual = 0;
       }
@@ -1759,7 +1970,7 @@ header {
       productsContainer.innerHTML = "";
 
       data[categoriaActual].forEach((producto, index) => {
-        producto = normalizarProducto(producto);
+        producto = normalizarProducto(producto, categoriaActual, index);
 
         if (producto.imagenActual === undefined) {
           producto.imagenActual = 0;
@@ -1830,7 +2041,7 @@ header {
     }
 
     function abrirGaleriaPorProducto(productIndex) {
-      const producto = normalizarProducto(data[categoriaActual][productIndex]);
+      const producto = normalizarProducto(data[categoriaActual][productIndex], categoriaActual, productIndex);
       galleryImages = producto.imagenes.map((imagen) => obtenerRutaImagen(imagen, categoriaActual));
       galleryIndex = producto.imagenActual || 0;
       actualizarGaleria();
