@@ -58,3 +58,12 @@
 @keyframes gift-appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.store-page dialog[open]{animation:none}.store-page .card,.store-page .card-photo img,.hero-feature{transition:none}.store-page .card:hover,.hero-feature:hover{transform:none}}
  
+
+/* Paleta ligera: crema, texto oscuro y vino para la selección. */
+.store-page .visual-category{background:#fffdf9;color:#382c32;border-color:#e8dfe0;box-shadow:0 2px 5px #382c3206}
+.store-page .visual-category:hover{background:#faf3f5;border-color:#c9a5b5;box-shadow:0 3px 9px #702f4a0d}
+.store-page .visual-category.active{background:#702f4a;color:#fff;border-color:#702f4a;box-shadow:0 4px 12px #702f4a24}
+.store-page .visual-category.active:hover{background:#58223a;border-color:#58223a}
+.store-page .visual-category img{border-color:#f0e3e8}.store-page .visual-category.active img{border-color:#fff}
+.store-page .category-symbol{color:#702f4a;background:#faf3f5;border-color:#f0e3e8}.store-page .visual-category.active .category-symbol{color:#fff;background:#ffffff14;border-color:#ffffff70}
+ 
