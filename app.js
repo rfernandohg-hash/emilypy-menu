@@ -13,7 +13,8 @@ function setPhoto(img,source,hero=false){
 }
 
 async function load(){try{const r=await fetch('/api/catalog');if(!r.ok)throw Error();catalog=await r.json();}catch{try{catalog=await(await fetch('/catalogo-inicial.json')).json();}catch{$('#products').textContent='No pudimos cargar el catálogo. Recarga o escríbenos por WhatsApp.';return;}}
- const hero=catalog.products.find(p=>p.featured&&p.images.length)||catalog.products.find(p=>p.images.length);if(hero){setPhoto($('#hero-image'),hero.images[0],true);$('#hero-image').alt=hero.name;$('#hero-feature-name').textContent=hero.name;$('#hero-feature-price').textContent=money(hero.price)+' · Precio referencial';$('#hero-feature').onclick=()=>openProduct(hero);}
+ const customCover=catalog.settings?.coverImage;if(customCover){setPhoto($('#hero-image'),customCover,true);$('#hero-image').alt=catalog.settings.coverAlt||'Detalle personalizado de Emily Py';$('#hero-feature').hidden=true;$('#hero-cover-note').hidden=false;}
+ const hero=catalog.products.find(p=>p.featured&&p.images.length)||catalog.products.find(p=>p.images.length);if(hero&&!customCover){setPhoto($('#hero-image'),hero.images[0],true);$('#hero-image').alt=hero.name;$('#hero-feature-name').textContent=hero.name;$('#hero-feature-price').textContent=money(hero.price)+' · Precio referencial';$('#hero-feature').onclick=()=>openProduct(hero);}
  for(const key of ['leadTime','delivery','payment'])if(catalog.settings?.[key])$('#'+key).textContent=catalog.settings[key];
  if(!$('#delivery').textContent)$('#delivery').textContent='Entregas dentro de Pastaza. Consulta cobertura y costo por WhatsApp.';
  if(!$('#payment').textContent)$('#payment').textContent='Confirmaremos disponibilidad, personalización, valor final y forma de pago por WhatsApp.';
