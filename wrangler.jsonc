@@ -1,0 +1,6 @@
+{
+  "name": "emilypy",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-22",
+  "d1_databases": [{"binding":"CATALOG_DB","database_name":"emilypy-catalogo","database_id":"07add19f-3156-4c07-b019-c1fbcd577408"}]
+}
