@@ -7,7 +7,7 @@ function setPhoto(img,source,hero=false){
  const original=imageURL(source);img.decoding='async';
  if(/^(\/?fotos\/|\/?imagenes\/)/.test(source)){
   const base='/optimized/'+source.replace(/^\//,'').split('/').map(encodeURIComponent).join('/');img.sizes=hero?'(max-width:600px) 90vw, 560px':'(max-width:600px) calc((100vw - 50px)/2), (max-width:1100px) calc((100vw - 92px)/2), 380px';
-  img.srcset=base+'.480.webp 480w, '+base+'.960.webp 960w';img.src=base+(hero?'.960.webp':'.480.webp');
+  img.srcset=base+'.480.webp?v=2 480w, '+base+'.960.webp?v=2 960w';img.src=base+(hero?'.960.webp?v=2':'.480.webp?v=2');
   img.onerror=()=>{img.onerror=null;img.removeAttribute('srcset');img.src=original;};
  }else img.src=original;
 }
