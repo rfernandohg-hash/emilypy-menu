@@ -14,7 +14,7 @@ async function compress(file){
  const mime=file.type.toLowerCase()||(/\.jpe?g$/i.test(file.name)?'image/jpeg':/\.png$/i.test(file.name)?'image/png':/\.webp$/i.test(file.name)?'image/webp':'');
  if(!['image/jpeg','image/png','image/webp'].includes(mime))throw Error('Usa una foto JPG, PNG o WebP. Si está en HEIC, expórtala como JPG desde tu teléfono.');
  if(file.size>25000000)throw Error('Esta foto supera 25 MB. Elige una versión de menor tamaño.');
- const limit=1600000;
+ const limit=450000;
  if(file.size>0&&file.size<=limit)return file.type?file:new Blob([file],{type:mime});
  let picture;
  if(typeof createImageBitmap==='function'){try{picture=await createImageBitmap(file);}catch{}}
@@ -29,7 +29,7 @@ async function compress(file){
   if(typeof canvas.toBlob!=='function'){fallback();return;}
   try{canvas.toBlob(blob=>blob?resolve(blob):fallback(),'image/jpeg',quality);}catch{fallback();}
  });
- for(const edge of [1600,1280,1000,800,600,400]){
+ for(const edge of [1000,800,600,400]){
   const ratio=Math.min(1,edge/Math.max(width,height));canvas.width=Math.max(1,Math.round(width*ratio));canvas.height=Math.max(1,Math.round(height*ratio));
   context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);context.drawImage(picture,0,0,canvas.width,canvas.height);
   for(const quality of [.86,.72,.56,.4]){const blob=await encode(quality);if(blob&&blob.size>0&&blob.size<=limit)return blob;}
