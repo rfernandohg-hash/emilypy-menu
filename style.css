@@ -15,3 +15,13 @@
  .card-category{font-size:9px;overflow-wrap:anywhere}.card-photo{aspect-ratio:1}
  .card-bottom{gap:10px}.card-bottom .button{min-height:44px}
 }
+
+/* Categorías con contraste y estado seleccionado reconocible. */
+.categories{gap:10px;padding-top:4px;padding-bottom:18px}
+.chip{background:#f5d8e5;color:#5e223b;border:1.5px solid #b96e8d;font-size:13px;font-weight:700;min-height:46px;padding:11px 18px;box-shadow:0 3px 0 #ead0dc;transition:background .15s,border-color .15s,box-shadow .15s}
+.chip:hover{background:#eebdd1;border-color:#702f4a}
+.chip.active{background:#702f4a;color:#fff;border-color:#702f4a;box-shadow:0 4px 12px #702f4a30}
+.chip.active::before{content:'✓';margin-right:7px}
+.chip.active:hover{background:#58223a}
+.chip:focus-visible{outline:3px solid #4f8696;outline-offset:3px}
+@media(max-width:600px){.categories{gap:10px;padding-bottom:15px}.chip{font-size:12px;min-height:46px;padding:11px 15px}}
