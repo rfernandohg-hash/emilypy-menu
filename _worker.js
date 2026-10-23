@@ -91,7 +91,7 @@ async function onRequest({request,env}){
 export default {async fetch(request,env,ctx){
  const url=new URL(request.url);
  if(url.pathname.startsWith('/api/'))return onRequest({request,env,waitUntil:ctx.waitUntil.bind(ctx)});
- const routes={'/admin':'/admin.html','/admin/':'/admin.html','/admin/admin.js':'/admin.js','/admin/login.html':'/login.html','/admin/login.js':'/login.js'};
+ const routes={'/admin':'/admin','/admin/':'/admin','/admin/admin.js':'/admin.js','/admin/login.html':'/login','/admin/login.js':'/login.js'};
  if(routes[url.pathname]){url.pathname=routes[url.pathname];return env.ASSETS.fetch(new Request(url,request));}
  return env.ASSETS.fetch(request);
 }};
