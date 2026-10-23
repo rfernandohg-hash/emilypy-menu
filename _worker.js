@@ -38,7 +38,7 @@ const canonicalCategory=value=>text(value,100)==='Decoración'?'Decoración de e
 function validateProduct(p){
  if(!p||typeof p!=='object'||!text(p.name,120)||!text(p.category,100)||!Number.isFinite(p.price)||p.price<0||p.price>100000)throw Error('Nombre, categoría y precio válido son obligatorios.');
  if(!Array.isArray(p.images)||p.images.length>12||p.images.some(s=>typeof s!=='string'||s.length>500||!(/^(fotos\/|imagenes\/|\/api\/images\/)/.test(s))))throw Error('Las fotos deben subirse desde el panel.');
- return {id:text(p.id,80)||crypto.randomUUID(),name:text(p.name,120),category:canonicalCategory(p.category),price:p.price,description:text(p.description),includes:text(p.includes),occasion:text(p.occasion,300),colors:text(p.colors,300),personalization:text(p.personalization,1000),leadTime:text(p.leadTime,300),images:p.images,visible:p.visible!==false,featured:p.featured===true,order:Number.isFinite(p.order)?p.order:0};
+ return {id:text(p.id,80)||crypto.randomUUID(),name:text(p.name,120),category:canonicalCategory(p.category),price:p.price,description:text(p.description),includes:text(p.includes),occasion:text(p.occasion,300),colors:text(p.colors,300),personalization:text(p.personalization,1000),leadTime:text(p.leadTime,300),images:p.images,deleted:p.deleted===true,visible:p.visible!==false,featured:p.featured===true,order:Number.isFinite(p.order)?p.order:0};
 }
 async function setup(db){await db.batch([db.prepare('CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, data TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1)'),db.prepare('CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY, type TEXT NOT NULL, data BLOB NOT NULL)'),db.prepare('CREATE TABLE IF NOT EXISTS settings (id TEXT PRIMARY KEY, data TEXT NOT NULL, version INTEGER NOT NULL DEFAULT 1)')]);}
 const defaultSettings={leadTime:'',delivery:'Entregas dentro de Pastaza. Consulta cobertura y costo por WhatsApp.',payment:'La disponibilidad, el valor final y la forma de pago se confirman por WhatsApp.',testimonials:[]};
@@ -50,7 +50,7 @@ async function catalog(env,request,privateView=false){
  const products=new Map(seed.products.map(p=>[p.id,{...p,version:0}]));
  for(const row of results)products.set(row.id,{...JSON.parse(row.data),version:row.version});
  const settings=await env.CATALOG_DB.prepare("SELECT data,version FROM settings WHERE id='public'").first();
- return {products:[...products.values()].map(p=>({...p,category:canonicalCategory(p.category)})).filter(p=>privateView||p.visible!==false),categories:seed.categories,settings:settings?{...defaultSettings,...JSON.parse(settings.data),version:settings.version}:{...defaultSettings,version:0},configured:true};
+ return {products:[...products.values()].map(p=>({...p,category:canonicalCategory(p.category)})).filter(p=>!p.deleted&&(privateView||p.visible!==false)),categories:seed.categories,settings:settings?{...defaultSettings,...JSON.parse(settings.data),version:settings.version}:{...defaultSettings,version:0},configured:true};
 }
 async function onRequest({request,env}){
  try{
