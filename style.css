@@ -68,3 +68,30 @@
 .store-page .visual-category img{border-color:#f0e3e8}.store-page .visual-category.active img{border-color:#fff}
 .store-page .category-symbol{color:#702f4a;background:#faf3f5;border-color:#f0e3e8}.store-page .visual-category.active .category-symbol{color:#fff;background:#ffffff14;border-color:#ffffff70}
  
+
+/* Ventanas y formularios utilizables en teléfonos pequeños y en horizontal. */
+dialog{overscroll-behavior:contain;overflow-wrap:anywhere}
+dialog form,dialog fieldset,dialog label,.two>*{min-width:0}
+.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+input,select,textarea{min-width:0;max-width:100%}
+dialog .actions .button{min-height:44px}
+@media(max-width:600px){
+ dialog,#gift-dialog,#gallery,#detail-dialog,#product-dialog{width:calc(100% - 16px);max-width:calc(100% - 16px);max-height:calc(100dvh - 24px);margin:auto;scroll-padding-block:60px 20px}
+ dialog,#gift-dialog,#gallery{padding:16px}
+ dialog input,dialog select,dialog textarea,.admin-page input,.admin-page select,.admin-page textarea,#login input{font-size:16px}
+ dialog .two{grid-template-columns:1fr;gap:0}
+ dialog .close{position:sticky;top:0;z-index:5;float:none;display:grid;place-items:center;width:44px;min-height:44px;margin:0 0 8px auto;background:var(--paper);border:1px solid var(--line);border-radius:50%}
+ #close-editor,#close-detail{position:sticky;top:0;z-index:5;float:none;display:flex;margin:0 0 14px auto;min-height:44px;background:var(--paper)}
+ #detail-dialog .panel,#product-dialog .panel{padding:16px}
+ #detail-title,#editor-title,#gift-title,.order-heading h2{font-size:28px;overflow-wrap:anywhere}
+ .product-actions .button,dialog .button{min-height:44px}
+ #detail-photos{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #gallery .actions{gap:12px}#gallery-photo{max-height:calc(100dvh - 190px)}
+ .admin-page .two{grid-template-columns:1fr;gap:0}
+}
+@media(max-height:450px) and (orientation:landscape){
+ dialog,#gift-dialog,#gallery,#detail-dialog,#product-dialog{max-height:calc(100dvh - 16px)}
+ #gallery-photo{max-height:calc(100dvh - 160px)}
+}
+@media(max-width:900px){dialog input,dialog select,dialog textarea,.admin-page input,.admin-page select,.admin-page textarea,#login input{font-size:16px}#close-editor,#close-detail{position:sticky;top:0;z-index:5;float:none;display:flex;margin:0 0 14px auto;min-height:44px;background:var(--paper)}}
+ 
